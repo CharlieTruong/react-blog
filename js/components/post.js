@@ -1,13 +1,19 @@
 import React from 'react';
+
 import ReactMarkdown from 'react-markdown'
+import Card from 'material-ui/lib/card/card';
+import CardTitle from 'material-ui/lib/card/card-title';
+import CardText from 'material-ui/lib/card/card-text';
 
 const Post = React.createClass({  
   render() {
     return (
-      <div>
-        <ReactMarkdown source={'# Header in markdown'}/>
-        <div>{this.props.title}</div>
-      </div>
+      <Card>
+        <CardTitle title={this.props.title}/>
+        <CardText>
+          <ReactMarkdown source={'# Header in markdown'}/>
+        </CardText>
+      </Card>
     );
   }
 });

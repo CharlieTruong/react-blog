@@ -5,6 +5,11 @@ import { Link } from 'react-router';
 import Box from 'react-layout-components'
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
+import AppBar from 'material-ui/lib/app-bar';
+import {cyan300} from 'material-ui/lib/styles/colors';
+import {StickyContainer, Sticky} from 'react-sticky';
+
+import AdminControls from './admin-controls';
 
 import '../../css/animations.css'
 
@@ -34,26 +39,44 @@ const Home = React.createClass({
     let layoutWidth = this.state.phoneLayout ? '100%' : '80%'
 
     return (
-      <Box fit column alignItems="center">
-        <Box column width={layoutWidth}>
+      <StickyContainer>
+        <Sticky>
+          <AppBar
+            title="Musings"
+            showMenuIconButton={false}
+            zDepth={0}
+            iconElementRight={
+              this.props.location.pathname == '/admin' ? <AdminControls/> : null
+            }
+            style={styles.appBar}/>
           <Tabs onChange={this.handleTabChange} value={this.state.tabValue}>
             <Tab label="Posts" value="/"/>
             <Tab label="About Me" value="/about"/>
           </Tabs>
-          <ReactCSSTransitionGroup
-            component="div"
-            transitionName="example"
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={500}
-          >
-            {React.cloneElement(this.props.children, {
-              key: this.props.location.pathname
-            })}
-          </ReactCSSTransitionGroup>
+        </Sticky>
+        <Box fit column alignItems="center">
+          <Box column width={layoutWidth}>
+            <ReactCSSTransitionGroup
+              component="div"
+              transitionName="example"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}
+            >
+              {React.cloneElement(this.props.children, {
+                key: this.props.location.pathname
+              })}
+            </ReactCSSTransitionGroup>
+          </Box>
         </Box>
-      </Box>
+      </StickyContainer>
     );
   }
 });
+
+const styles = {
+  appBar: {
+    backgroundColor: cyan300
+  }
+}
 
 export default Home

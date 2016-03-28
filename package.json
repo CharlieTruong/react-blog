@@ -23,6 +23,7 @@
     "react-markdown": "^2.1.0",
     "react-router": "^1.0.3",
     "react-static-container": "^1.0.0",
+    "react-sticky": "^4.0.1",
     "react-tap-event-plugin": "^0.2.2",
     "reactfire": "^0.6.0"
   },
