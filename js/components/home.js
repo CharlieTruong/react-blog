@@ -46,7 +46,11 @@ const Home = React.createClass({
             showMenuIconButton={false}
             zDepth={0}
             iconElementRight={
-              this.props.location.pathname == '/admin' ? <AdminControls/> : null
+              this.props.location.pathname == '/admin'
+              ? <AdminControls
+                  afterLoginPath='/' history={this.props.history}
+                />
+              : null
             }
             style={styles.appBar}/>
           <Tabs onChange={this.handleTabChange} value={this.state.tabValue}>

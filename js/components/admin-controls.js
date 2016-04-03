@@ -5,7 +5,7 @@ import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
-import firebaseRef from '../constants/firebase-url'
+import {firebaseRef, currentUser} from '../constants/firebase-url'
 
 const AdminControls = React.createClass({
   login() {
@@ -13,7 +13,8 @@ const AdminControls = React.createClass({
       if (error) {
         console.log("Login Failed!", error);
       } else {
-        console.log("Authenticated successfully with payload:", authData);
+        currentUser.authData = authData;
+        this.props.history.push(this.props.afterLoginPath);
       }
     });
   },
