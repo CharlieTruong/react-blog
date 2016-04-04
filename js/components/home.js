@@ -17,30 +17,16 @@ const ACTIVE = {color: 'green'}
 
 const Home = React.createClass({  
   componentWillMount() {
-    const mql = window.matchMedia('only screen and (max-width: 414px)');
-    mql.addListener(this.mediaQueryChanged);
-    this.setState({
-      mql: mql,
-      phoneLayout: mql.matches,
-      tabValue: this.props.location.pathname
-    });
-  },
-  componentWillUnmount() {
-    this.state.mql.removeListener(this.mediaQueryChanged);
+    this.setState({tabValue: this.props.location.pathname});
   },
   handleTabChange(value, e, tab) {
     this.props.history.push(value);
     this.setState({tabValue: value});
   },
-  mediaQueryChanged() {
-    this.setState({phoneLayout: this.state.mql.matches});
-  },
   render() {
-    let layoutWidth = this.state.phoneLayout ? '100%' : '80%'
-
     return (
       <StickyContainer>
-        <Sticky>
+        <Sticky stickyStyle={styles.header}>
           <AppBar
             title="Musings"
             showMenuIconButton={false}
@@ -59,17 +45,8 @@ const Home = React.createClass({
           </Tabs>
         </Sticky>
         <Box fit column alignItems="center">
-          <Box column width={layoutWidth}>
-            <ReactCSSTransitionGroup
-              component="div"
-              transitionName="example"
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={500}
-            >
-              {React.cloneElement(this.props.children, {
-                key: this.props.location.pathname
-              })}
-            </ReactCSSTransitionGroup>
+          <Box width="85%">
+            {this.props.children}
           </Box>
         </Box>
       </StickyContainer>
@@ -80,6 +57,9 @@ const Home = React.createClass({
 const styles = {
   appBar: {
     backgroundColor: cyan300
+  },
+  header: {
+    zIndex: 1
   }
 }
 

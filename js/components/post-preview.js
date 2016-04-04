@@ -5,7 +5,7 @@ import Card from 'material-ui/lib/card/card';
 import CardTitle from 'material-ui/lib/card/card-title';
 import CardText from 'material-ui/lib/card/card-text';
 
-const Post = React.createClass({  
+const PostPreview = React.createClass({  
   render() {
     return (
       <Card>
@@ -18,4 +18,4 @@ const Post = React.createClass({
   }
 });
 
-export default Post
+export default PostPreview

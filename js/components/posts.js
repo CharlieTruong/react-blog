@@ -1,11 +1,12 @@
 import React from 'react';
 
+import Box from 'react-layout-components'
 import ReactFireMixin from 'reactfire';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 import Dialog from 'material-ui/lib/dialog';
 
-import Post from './post';
+import PostPreview from './post-preview';
 import PostForm from './post-form';
 import {firebaseRef, currentUser} from '../constants/firebase-url'
 
@@ -16,7 +17,18 @@ const Posts = React.createClass({
       .child('posts')
       .orderByChild('sortOrder')
     this.bindAsArray(ref, 'posts');
-    this.setState
+    const mql = window.matchMedia('only screen and (max-width: 414px)');
+    mql.addListener(this.mediaQueryChanged);
+    this.setState({
+      mql: mql,
+      phoneLayout: mql.matches
+    });
+  },
+  componentWillUnmount() {
+    this.state.mql.removeListener(this.mediaQueryChanged);
+  },
+  mediaQueryChanged() {
+    this.setState({phoneLayout: this.state.mql.matches});
   },
   getInitialState() {
     return {open: false};
@@ -39,17 +51,28 @@ const Posts = React.createClass({
         </FloatingActionButton>
     }
 
+    if (this.state.phoneLayout) {
+      styles.post.width = '100%';
+      styles.post.marginRight = 0;
+    } else {
+      styles.post.width = '30%';
+      styles.post.marginRight = '3%';
+    }
+
     let PostNodes = this.state.posts.map(post => {
       return (
         <div style={styles.post}>
-          <Post title={post.title} key={post['.key']}/>
+          <PostPreview title={post.title} key={post['.key']}
+          />
         </div>
       );
     });
 
     return (
-      <div>
-        {PostNodes}
+      <Box fit>
+        <Box fit wrap>
+          {PostNodes}
+        </Box>
         {addButton}
         <Dialog
           open={this.state.open}
@@ -57,7 +80,7 @@ const Posts = React.createClass({
         >
           <PostForm/>
         </Dialog>
-      </div>
+      </Box>
     );
   }
 });
