@@ -8,15 +8,22 @@ import Dialog from 'material-ui/lib/dialog';
 
 import PostPreview from './post-preview';
 import PostForm from './post-form';
-import {firebaseRef, currentUser} from '../constants/firebase-url'
+import {
+  firebaseRef,
+  firebaseChildRefs,
+  currentUser
+} from '../constants/firebase-url';
 
 const Posts = React.createClass({
   mixins: [ReactFireMixin],
   componentWillMount() {
-    let ref = firebaseRef
-      .child('posts')
-      .orderByChild('sortOrder')
-    this.bindAsArray(ref, 'posts');
+    if (!firebaseChildRefs.posts) {
+      firebaseChildRefs.posts = firebaseRef
+        .child('posts')
+        .orderByChild('sortOrder')
+    }
+
+    this.bindAsArray(firebaseChildRefs.posts, 'posts');
     const mql = window.matchMedia('only screen and (max-width: 414px)');
     mql.addListener(this.mediaQueryChanged);
     this.setState({
