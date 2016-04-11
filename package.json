@@ -19,6 +19,7 @@
     "react": "^0.14.8",
     "react-addons-css-transition-group": "^0.14.7",
     "react-addons-update": "^0.14.8",
+    "react-clamp": "^1.0.3",
     "react-dom": "^0.14.7",
     "react-layout-components": "^2.2.0",
     "react-markdown": "^2.1.0",

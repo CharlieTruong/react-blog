@@ -26,7 +26,9 @@ const PostForm = React.createClass({
     };
     let newPostData = update(this.state.form, createdAt);
     firebaseRef.child('posts').push(newPostData);
-    this.setState({form: {title: '', body: ''}});
+    this.setState({form: {title: '', imageUrl: '', body: ''}});
+    debugger;
+    this.props.onClose();
   },
   render() {
     return (
@@ -36,6 +38,12 @@ const PostForm = React.createClass({
           floatingLabelText="Title"
           value={this.state.form.title}
           onChange={(e) => this.handleChange(e, 'title')}
+          style={styles.textField}
+        /><br/>
+        <TextField
+          floatingLabelText="Image Url"
+          value={this.state.form.imageUrl}
+          onChange={(e) => this.handleChange(e, 'imageUrl')}
           style={styles.textField}
         /><br/>
         <TextField

@@ -17,11 +17,20 @@ const ACTIVE = {color: 'green'}
 
 const Home = React.createClass({  
   componentWillMount() {
-    this.setState({tabValue: this.props.location.pathname});
+    this.setTabValue();
   },
-  handleTabChange(value, e, tab) {
-    this.props.history.push(value);
-    this.setState({tabValue: value});
+  componentWillReceiveProps() {
+    this.setTabValue();
+  },
+  componentWillReceiveProps(nextProps) {
+    this.setTabValue(nextProps.location.pathname);
+  },
+  setTabValue(pathname=this.props.location.pathname) {
+    let tabValue = /^\/posts/.test(pathname) ? '/' : pathname;
+    this.setState({tabValue: tabValue});
+  },
+  handleTabChange(tab) {
+    this.props.history.push(tab.props.value);
   },
   render() {
     return (
@@ -39,9 +48,17 @@ const Home = React.createClass({
               : null
             }
             style={styles.appBar}/>
-          <Tabs onChange={this.handleTabChange} value={this.state.tabValue}>
-            <Tab label="Posts" value="/"/>
-            <Tab label="About Me" value="/about"/>
+          <Tabs value={this.state.tabValue}>
+            <Tab
+              label="Posts"
+              value="/"
+              onActive={this.handleTabChange}
+            />
+            <Tab
+              label="About Me"
+              value="/about"
+              onActive={this.handleTabChange}
+            />
           </Tabs>
         </Sticky>
         <Box fit column alignItems="center">

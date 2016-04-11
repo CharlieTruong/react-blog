@@ -5,6 +5,7 @@ import ReactFireMixin from 'reactfire';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 import Dialog from 'material-ui/lib/dialog';
+import { Link } from 'react-router';
 
 import PostPreview from './post-preview';
 import PostForm from './post-form';
@@ -68,10 +69,13 @@ const Posts = React.createClass({
 
     let PostNodes = this.state.posts.map(post => {
       return (
-        <div style={styles.post}>
-          <PostPreview title={post.title} key={post['.key']}
-          />
-        </div>
+        <Link
+          to={`/posts/${post['.key']}/`}
+          key={post['.key']}
+          style={styles.post}
+        >
+          <PostPreview post={post}/>
+        </Link>
       );
     });
 
@@ -85,7 +89,7 @@ const Posts = React.createClass({
           open={this.state.open}
           onRequestClose={this.closeAddPostModal}
         >
-          <PostForm/>
+          <PostForm onSubmit={this.closeAddPostModal}/>
         </Dialog>
       </Box>
     );
@@ -94,7 +98,8 @@ const Posts = React.createClass({
 
 const styles = {
   post: {
-    marginTop: 10
+    marginTop: 10,
+    textDecoration: 'none'
   },
   addButton: {
     position: 'fixed',
